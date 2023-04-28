@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -24,19 +24,14 @@ const styles = {
   },
 };
 
-export default function MovieCard({movie}) {    // Destructure props
+export default function MovieCard({ movie, action }) {
   const { favourites, addToFavourites } = useContext(MoviesContext);
 
   if (favourites.find((id) => id === movie.id)) {
     movie.favourite = true;
   } else {
-    movie.favourite = false
+    movie.favourite = false;
   }
-
-  const handleAddToFavourite = (e) => {
-    e.preventDefault();
-    addToFavourites(movie);
-  };
 
   return (
     <Card sx={styles.card}>
@@ -80,13 +75,7 @@ export default function MovieCard({movie}) {    // Destructure props
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton
-          aria-label="add to favourites"
-          onClick={handleAddToFavourite}
-        >
-          <FavoriteIcon color="primary" fontSize="large" />
-        </IconButton>
-
+        {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
